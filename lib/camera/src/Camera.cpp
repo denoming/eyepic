@@ -1,6 +1,6 @@
-#include "Camera.hpp"
+#include "camera/Camera.hpp"
 
-#include "Config.hpp"
+#include "camera/Config.hpp"
 
 #include <esp_camera.h>
 #include <esp_log.h>

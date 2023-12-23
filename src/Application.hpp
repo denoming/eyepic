@@ -1,5 +1,9 @@
 #pragma once
 
+#include "nn/NeuralNetwork.hpp"
+
+#include <memory>
+
 class Application {
 public:
     bool
@@ -7,4 +11,7 @@ public:
 
     void
     loop();
+
+private:
+    std::unique_ptr<NeuralNetwork> _nn;
 };
