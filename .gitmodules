@@ -3,7 +3,7 @@
 	url = git@github.com:espressif/esp32-camera.git
 [submodule "components/esp-tflite-micro"]
 	path = components/esp-tflite-micro
-	url = git@github.com:karz0n/esp-tflite-micro.git
+	url = git@github.com:denoming/esp-tflite-micro.git
 [submodule "components/esp-nn"]
 	path = components/esp-nn
 	url = git@github.com:espressif/esp-nn.git
