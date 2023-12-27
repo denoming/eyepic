@@ -14,7 +14,7 @@ const size_t kPersonIndex = 1;
 const size_t kNotPersonIndex = 0;
 extern const char* kCategoryLabels[kCategoryCount];
 
-/* Detection model data */
-extern const unsigned char gModelData[];
-/* Detection model size in bytes */
-extern const int gModelDataLen;
+/* Person detection model data */
+extern const unsigned char gPersonModelData[];
+/* Person detection model size in bytes */
+extern const int gPersonModelDataLen;

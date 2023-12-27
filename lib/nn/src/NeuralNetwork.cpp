@@ -57,7 +57,7 @@ public:
     setup()
     {
         /* Map model into usable structure */
-        _model = GetModel(gModelData);
+        _model = GetModel(gPersonModelData);
         if (_model->version() != TFLITE_SCHEMA_VERSION) {
             ESP_LOGE(TAG,
                      "Given model is schema version %lu not equal to supported version %lu",
