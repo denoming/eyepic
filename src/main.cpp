@@ -7,22 +7,47 @@
 
 static const char* TAG = "EP<Main>";
 
-[[noreturn]] int
-main()
+namespace {
+
+inline void
+taskDelay()
+{
+    vTaskDelay(pdMS_TO_TICKS(100));
+}
+
+inline void
+taskSuspend()
+{
+    vTaskSuspend(nullptr);
+}
+
+} // namespace
+
+void
+xmain(void* /*param*/)
 {
     Application app;
     if (not app.setup()) {
         ESP_LOGE(TAG, "Unable to setup application");
+        taskSuspend();
     } else {
-        while (true) {
-            app.loop();
+        bool result;
+        do {
+            result = app.loop();
+            if (result) {
+                taskDelay();
+            } else {
+                ESP_LOGE(TAG, "Unable to loop application");
+                taskSuspend();
+            }
         }
+        while (result);
     }
 }
 
 extern "C" void
 app_main()
 {
-    xTaskCreate((TaskFunction_t) &main, "main", 4 * 1024, nullptr, 8, nullptr);
+    xTaskCreate((TaskFunction_t) &xmain, "xmain", 4 * 1024, nullptr, 8, nullptr);
     vTaskDelete(nullptr);
 }

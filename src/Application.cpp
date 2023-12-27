@@ -41,20 +41,18 @@ Application::setup()
     return true;
 }
 
-void
+bool
 Application::loop()
 {
     int8_t* input = _nn->input();
     if (input == nullptr) {
         ESP_LOGE(TAG, "Unable to get image");
-        taskDelay();
-        return;
+        return false;
     }
 
     if (not ImageProvider::getImage(kModelImageCols, kModelImageRows, kModelImageChannels, input)) {
         ESP_LOGE(TAG, "Unable to get image");
-        taskDelay();
-        return;
+        return false;
     }
 
     if (auto result = _nn->predict(); result == NeuralNetwork::Result::Person) {
@@ -63,5 +61,5 @@ Application::loop()
         ESP_LOGI(TAG, "NOT person");
     }
 
-    taskDelay();
+    return true;
 }

@@ -9,7 +9,7 @@ public:
     bool
     setup();
 
-    void
+    bool
     loop();
 
 private:
