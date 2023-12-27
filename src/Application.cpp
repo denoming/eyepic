@@ -1,8 +1,5 @@
 #include "Application.hpp"
 
-#include <freertos/FreeRTOS.h>
-#include <freertos/task.h>
-
 #include <esp_log.h>
 
 #include "camera/Camera.hpp"
@@ -11,16 +8,6 @@
 #include "nn/Model.hpp"
 
 static const char* TAG = "EP<App>";
-
-namespace {
-
-inline void
-taskDelay()
-{
-    vTaskDelay(pdMS_TO_TICKS(100));
-}
-
-} // namespace
 
 bool
 Application::setup()
