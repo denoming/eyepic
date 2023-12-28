@@ -32,8 +32,7 @@ Application::setup()
         return false;
     }
 
-    _nn = std::make_unique<NeuralNetwork>();
-    if (not _nn->setup()) {
+    if (_nn = std::make_unique<NeuralNetwork>(); not _nn->setup()) {
         ESP_LOGE(TAG, "Unable to setup neural network");
         return false;
     }
@@ -53,6 +52,7 @@ Application::setup()
 bool
 Application::loop()
 {
+    assert(_nn);
     int8_t* input = _nn->input();
     if (input == nullptr) {
         ESP_LOGE(TAG, "Unable to get input");
@@ -64,10 +64,11 @@ Application::loop()
         return true;
     }
 
+    assert(_publisher);
     if (auto result = _nn->predict(); result == NeuralNetwork::Result::Person) {
-        std::ignore = _publisher->publish("status", "Person");
+        _publisher->publish("status", "Person");
     } else {
-        std::ignore = _publisher->publish("status", "NotPerson");
+        _publisher->publish("status", "NotPerson");
     }
 
     return true;
