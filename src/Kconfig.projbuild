@@ -56,7 +56,7 @@ menu "EyePic Config"
     menu "Video camera options"
         config EP_CAM_XCLK_FREQ_HZ
             int "Frequency of XCLK signal"
-            default 15000000
+            default 10000000
             help
                 Frequency of XCLK signal, in Hz. EXPERIMENTAL: Set to 16MHz on ESP32-S2 or ESP32-S3 to enable EDMA mode
 
