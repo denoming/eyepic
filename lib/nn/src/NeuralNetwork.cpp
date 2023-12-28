@@ -99,26 +99,20 @@ public:
         return true;
     }
 
-    [[nodiscard]] Result
+    [[nodiscard]] Scores
     predict()
     {
         if (_interpreter == nullptr) {
             ESP_LOGE(TAG, "Neural network is not initialized");
-            return Result::Unknown;
+            return kInvalidScores;
         }
 
         if (_interpreter->Invoke() != kTfLiteOk) {
             ESP_LOGE(TAG, "Prediction has failed");
-            return Result::Unknown;
+            return kInvalidScores;
         }
 
-        const int pScore = score(kPersonIndex);
-        const int nScore = score(kNotPersonIndex);
-        if (pScore < kScoreThreshold) {
-            return (nScore >= kScoreThreshold) ? Result::NotPerson : Result::Unknown;
-        } else {
-            return Result::Person;
-        }
+        return {score(kPersonIndex), score(kNotPersonIndex)};
     }
 
 private:
@@ -162,7 +156,7 @@ NeuralNetwork::setup()
     return _impl->setup();
 }
 
-[[nodiscard]] NeuralNetwork::Result
+[[nodiscard]] NeuralNetwork::Scores
 NeuralNetwork::predict()
 {
     assert(_impl);

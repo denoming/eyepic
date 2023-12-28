@@ -25,17 +25,30 @@ Application::setup()
         return false;
     }
 
-    taskDelay(1000 /* before init camera wait some delay after WiFi connecting */);
+    taskDelay(1000);
 
     if (not Camera::init()) {
         ESP_LOGE(TAG, "Unable to init camera");
         return false;
     }
 
-    if (_nn = std::make_unique<NeuralNetwork>(); not _nn->setup()) {
-        ESP_LOGE(TAG, "Unable to setup neural network");
+    taskDelay(1000);
+
+    if (_detector = std::make_unique<PersonDetector>();_detector->setup()) {
+        _detector->onStatusUpdate([this](const DetectionResult result) {
+            assert(_publisher);
+            if (result == DetectionResult::Person) {
+                _publisher->publish("status", "Person");
+            } else {
+                _publisher->publish("status", "NotPerson");
+            }
+        });
+    } else {
+        ESP_LOGE(TAG, "Unable to setup detector");
         return false;
     }
+
+    taskDelay(1000);
 
     if (_publisher = std::make_unique<Publisher>(); _publisher->connect()) {
         _publisher->publish("status", "Unknown");
@@ -49,27 +62,9 @@ Application::setup()
     return true;
 }
 
-bool
+void
 Application::loop()
 {
-    assert(_nn);
-    int8_t* input = _nn->input();
-    if (input == nullptr) {
-        ESP_LOGE(TAG, "Unable to get input");
-        return false;
-    }
-
-    if (not ImageProvider::getImage(kModelImageCols, kModelImageRows, kModelImageChannels, input)) {
-        ESP_LOGE(TAG, "Unable to get image");
-        return true;
-    }
-
-    assert(_publisher);
-    if (auto result = _nn->predict(); result == NeuralNetwork::Result::Person) {
-        _publisher->publish("status", "Person");
-    } else {
-        _publisher->publish("status", "NotPerson");
-    }
-
-    return true;
+    assert(_detector);
+    _detector->detect();
 }

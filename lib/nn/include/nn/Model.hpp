@@ -3,10 +3,10 @@
 #include <esp_types.h>
 
 /* Detection model image  */
-const size_t kModelImageCols = 96;
-const size_t kModelImageRows = 96;
-const size_t kModelImageChannels = 1 /* Greyscale */;
-const size_t kModelImageSize = kModelImageCols * kModelImageRows * kModelImageChannels;
+const size_t kImageCols = 96;
+const size_t kImageRows = 96;
+const size_t kImageChannels = 1 /* Greyscale */;
+const size_t kImageSize = kImageCols * kImageRows * kImageChannels;
 
 /* Detection model category labels */
 const size_t kCategoryCount = 2;

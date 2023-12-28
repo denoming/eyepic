@@ -8,31 +8,25 @@
 
 static const char* TAG = "EP<Main>";
 
-void
+[[noreturn]] void
 xmain(void* /*param*/)
 {
     Application app;
+
     if (not app.setup()) {
         ESP_LOGE(TAG, "Unable to setup application");
         taskSuspend();
-    } else {
-        bool result;
-        do {
-            result = app.loop();
-            if (result) {
-                taskDelay(100);
-            } else {
-                ESP_LOGE(TAG, "Unable to loop application");
-                taskSuspend();
-            }
-        }
-        while (result);
+    }
+
+    while (true) {
+        app.loop();
+        taskDelay(100);
     }
 }
 
 extern "C" void
 app_main()
 {
-    xTaskCreate((TaskFunction_t) &xmain, "xmain", 6 * 1024, nullptr, 8, nullptr);
+    xTaskCreatePinnedToCore((TaskFunction_t) &xmain, "xmain", 6 * 1024, nullptr, 8, nullptr, 1);
     vTaskDelete(nullptr);
 }

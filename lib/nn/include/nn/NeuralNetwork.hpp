@@ -1,17 +1,14 @@
 #pragma once
 
 #include <memory>
+#include <tuple>
 
 class NeuralNetwork {
 public:
-    /**
-     * If \c PersonScore >= 60                             => Person
-     * If \c PersonScore  < 60 and \c NotPersonScore >= 60 => NotPerson
-     * Else                                                => Unknown
-     */
-    inline static const int kScoreThreshold = 60;
+    using Scores = std::tuple<int /* Person score */, int /* Not person score */>;
 
-    enum Result { Person, NotPerson, Unknown };
+    /* Score value for error cases */
+    inline static Scores kInvalidScores = Scores{-1, -1};
 
     NeuralNetwork();
 
@@ -23,7 +20,7 @@ public:
     [[nodiscard]] bool
     setup();
 
-    [[nodiscard]] Result
+    [[nodiscard]] Scores
     predict();
 
 private:
