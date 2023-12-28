@@ -51,7 +51,7 @@ menu "EyePic Config"
                 help
                     Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
         endmenu # WiFi options
-    endmenu # General
+    endmenu # Network
 
     menu "Video camera options"
         config EP_CAM_XCLK_FREQ_HZ

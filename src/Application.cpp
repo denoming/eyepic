@@ -25,7 +25,7 @@ Application::setup()
         return false;
     }
 
-    taskDelay(1000 /* before init camera wait some delay  after WiFi connecting */);
+    taskDelay(1000 /* before init camera wait some delay after WiFi connecting */);
 
     if (not Camera::init()) {
         ESP_LOGE(TAG, "Unable to init camera");
