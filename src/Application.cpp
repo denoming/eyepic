@@ -65,10 +65,8 @@ Application::loop()
     }
 
     if (auto result = _nn->predict(); result == NeuralNetwork::Result::Person) {
-        ESP_LOGI(TAG, "Person");
         std::ignore = _publisher->publish("status", "Person");
     } else {
-        ESP_LOGI(TAG, "NOT person");
         std::ignore = _publisher->publish("status", "NotPerson");
     }
 
