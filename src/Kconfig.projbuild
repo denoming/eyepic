@@ -1,7 +1,59 @@
 menu "EyePic Config"
+    menu "Network"
+        menu "MQTT"
+            config EP_NET_MQTT_URL
+                string "Broker URL"
+                default "mqtt://mqtt.eclipseprojects.io"
+                help
+                    URL of the broker to connect to
+
+            config EP_NET_MQTT_TOPIC
+                string "Parent Topic"
+                default "eyepic"
+                help
+                    The name of parent topic
+
+            config EP_NET_MQTT_AUTH
+                bool "Require Authentication"
+                default n
+
+            config EP_NET_MQTT_USER
+                depends on EP_NET_MQTT_AUTH
+                string "MQTT Username"
+                default "user"
+                help
+                    The username to authenticate on MQTT server to
+
+            config EP_NET_MQTT_PASS
+                depends on EP_NET_MQTT_AUTH
+                string "MQTT Password"
+                default "password"
+                help
+                    The password to authenticate on MQTT server to
+        endmenu # MQTT
+
+        menu "WiFi options"
+            config EP_NET_WIFI_SSID
+                string "WiFi SSID"
+                default "myssid"
+                help
+                    SSID (network name) to connect to.
+
+            config EP_NET_WIFI_PASSWORD
+                string "WiFi Password"
+                default "mypassword"
+                help
+                    WiFi password (WPA or WPA2) to use.
+
+            config EP_NET_MAXIMUM_RETRY
+                int "Maximum retry"
+                default 5
+                help
+                    Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+        endmenu # WiFi options
+    endmenu # General
 
     menu "Video camera options"
-
         config EP_CAM_XCLK_FREQ_HZ
             int "Frequency of XCLK signal"
             default 15000000
@@ -69,7 +121,6 @@ menu "EyePic Config"
 
         menu "Pins config"
         depends on EP_CAM_MODULE_CUSTOM
-
             config EP_CAM_PIN_PWDN
                 int "Pin PWDN value"
                 default 32
@@ -152,5 +203,4 @@ menu "EyePic Config"
                     The pin numbers for the pixel clock pin of the camera.
         endmenu # Pin config
     endmenu # Video camera menu
-
 endmenu
