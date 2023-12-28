@@ -10,7 +10,7 @@ static const char* TAG = "EP<Camera>";
 bool
 Camera::init()
 {
-#if CONFIG_EP_CAM_MODULE_AI_THINKER || CONFIG_CAMERA_MODULE_ESP32_CAM_BOARD
+#if CONFIG_CAMERA_MODULE_ESP_EYE || CONFIG_CAMERA_MODULE_ESP32_CAM_BOARD
     /* IO13, IO14 is designed for JTAG by default,
      * to use it as generalized input,
      * firstly declare it as pull up input */
@@ -47,7 +47,7 @@ Camera::init()
     cc.ledc_timer = EP_CAM_LEDC_TIMER;
     cc.ledc_channel = EP_CAM_LEDC_CHANNEL;
     cc.jpeg_quality = 10;
-    cc.fb_count = 2; /* Enable continuous mode */
+    cc.fb_count = 5; /* Enable continuous mode */
     cc.fb_location = CAMERA_FB_IN_PSRAM;
     cc.grab_mode = CAMERA_GRAB_LATEST;
 
